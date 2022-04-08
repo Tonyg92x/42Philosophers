@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 07:42:17 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/08 12:28:35 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/08 15:02:02 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct toutexd
 	struct philo	*philo1;
 	pthread_mutex_t	mutex;
 	struct timeval	s_time;
+	bool			pair;
 	int				nb_philo;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -48,6 +49,9 @@ typedef struct toutexd
 t_philo		*initialise_philo(char **argv);
 bool		args_valid(int argc, char **argv);
 void		init_toute(t_toutexd *toute, int argc, char **argv);
+int			get_timestamp(struct timeval s_time);
+bool		eat_impair(t_toutexd *toute);
+bool		eat_pair(t_toutexd *toute);
 
 //	Utils
 int			ft_atoi(const char *str);

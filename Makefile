@@ -6,7 +6,7 @@
 #    By: aguay <aguay@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 08:51:26 by mmondell          #+#    #+#              #
-#    Updated: 2022/04/08 10:53:17 by aguay            ###   ########.fr        #
+#    Updated: 2022/04/08 14:59:25 by aguay            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS_FILES		=						\
 			args_validation.c			\
 			ft_atoi.c					\
 			ft_isdigit.c				\
+			philo_utils.c				\
 
 ## ----- .C TO .O CONVERT ----- ##
 OBJ_FILES		= $(SRCS_FILES:.c=.o)

@@ -6,31 +6,25 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/08 13:10:36 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/08 15:02:36 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	get_timestamp(struct timeval	s_time)
+void*	ft_eat(void *arg)
 {
-	struct timeval	a_time;
-
-	if (gettimeofday(&a_time, NULL) == -1)
-	{
-		write(2, "Failed to read timestamp.\n", 26);
-		return (-1);
-	}
-	return (a_time.tv_usec - s_time.tv_usec);
-}
-
-void*	ft_eat()
-{
+	t_toutexd *toute;
 	int	*i;
+	int	j;
 
+	j = 1;
+	toute = arg;
 	i = malloc(sizeof(int));
-	*i = 0;
-	printf("Eating\n");
+	if (toute->pair == true)
+		eat_pair(toute);
+	else if (toute->pair == false)
+		eat_impair(toute);
 	return ((void *) i);
 }
 
@@ -43,7 +37,7 @@ void	ft_run_philo(t_toutexd toute)
 	i = 0;
 	while (i < toute.nb_philo)
 	{
-		if (pthread_create(&thread[i], NULL, &ft_eat, NULL) != 0)
+		if (pthread_create(&thread[i], NULL, &ft_eat, &toute) != 0)
 		{
 			write(2, "Error : Couldnt create a thread.\n", 33);
 			return ;
@@ -59,7 +53,7 @@ void	ft_run_philo(t_toutexd toute)
 			return ;
 		}
 		if ((*result) == 0)
-			printf("Philo %d has done eating\n", i + 1);
+			printf("Philo %d has done eating %d time.\n", i + 1, toute.eat_goal);
 		free(result);
 		i++;
 	}
@@ -79,6 +73,6 @@ int	main(int argc, char **argv)
 	init_toute(&toute, argc, argv);
 	ft_run_philo(toute);
 	free_mem(toute.philo1, ft_atoi(argv[1]));
-	pthread_mutex_destroy(&toute.mutex);
+	pthread_mutex_destroy(&(toute.mutex));
 	return (0);
 }

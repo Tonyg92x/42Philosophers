@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/08 12:34:44 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/08 14:52:30 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_toute(t_toutexd *toute, int argc, char **argv)
 	toute->philo1 = initialise_philo(argv);
 	if (argc == 6)
 		toute->eat_goal = ft_atoi(argv[5]);
+	toute->pair = false;
 	pthread_mutex_init(&toute->mutex, NULL);
 }
 
