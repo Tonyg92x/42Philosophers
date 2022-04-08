@@ -1,0 +1,5 @@
+thread ponter = pthred_t
+
+Create a tread = pthread_create(pthread pointer, NULL, fonction pointer, NULL)
+
+Wait for thread to come back form function = pthread_join(t1, NULL)

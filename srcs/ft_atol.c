@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/08 09:18:36 by aguay            ###   ########.fr       */
+/*   Created: 2021/09/20 14:52:44 by aguay             #+#    #+#             */
+/*   Updated: 2022/04/08 08:23:00 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+//	Take the integer entered and convert it into a 
+//	long variable (It's pretty usefull to test integer limits).
+long int	ft_atol(char	*string)
 {
-	t_philo	*philo1;
+	long int	retour;
+	int			i;
+	int			negative;
 
-	if (argc < 5 || argc > 6)
+	negative = 1;
+	i = 0;
+	retour = 0;
+	if (string[i] == '-')
 	{
-		write(2, "Error : Nombre d'arguments invalide.\n", 37);
-		return (0);
+		negative = -1;
+		i++;
 	}
-	if (args_valid(argc, argv) == false)
-		return (0);
-	philo1 = initialise_philo(argc, argv);
-	free_mem(philo1, ft_atoi(argv[1]));
-	return (0);
+	while (string[i] != '\0')
+		retour = retour * 10 + (string[i++] - 48);
+	return (retour * negative);
 }

@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/08 09:18:36 by aguay            ###   ########.fr       */
+/*   Created: 2021/09/18 11:36:39 by aguay             #+#    #+#             */
+/*   Updated: 2022/04/08 08:23:02 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+//	Return 1 (true) if the character entered
+//	is a number. Return 0 (false) otherwise.
+int	ft_isdigit(int character)
 {
-	t_philo	*philo1;
-
-	if (argc < 5 || argc > 6)
-	{
-		write(2, "Error : Nombre d'arguments invalide.\n", 37);
-		return (0);
-	}
-	if (args_valid(argc, argv) == false)
-		return (0);
-	philo1 = initialise_philo(argc, argv);
-	free_mem(philo1, ft_atoi(argv[1]));
+	if (character > 47 && character < 58)
+		return (1);
 	return (0);
 }

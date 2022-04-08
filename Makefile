@@ -6,7 +6,7 @@
 #    By: aguay <aguay@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 08:51:26 by mmondell          #+#    #+#              #
-#    Updated: 2022/03/31 07:41:24 by aguay            ###   ########.fr        #
+#    Updated: 2022/04/08 09:06:30 by aguay            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME 			= philo
 
 ## ----- CHOOSE COMPILER AND FLAGS ----- ##
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -pthread -g
 
 ## ----- PATH TO FOLDERS ----- ##
 SRCS_DIR		= srcs/
@@ -28,15 +28,14 @@ OBJ_DIR			= obj/
 
 INCLUDE_DIR		= includes/
 
-LIBFT_DIR		= libft
-
-LIBFT_OBJ		= libft/obj/
-
-LIBFT_INC		= libft/includes/
-
 ## ----- SOURCE FILES ----- ##
 SRCS_FILES		=						\
 			main.c						\
+			initialise_philos.c			\
+			args_validation.c			\
+			ft_atoi.c					\
+			ft_isdigit.c				\
+			ft_atol.c					\
 
 ## ----- .C TO .O CONVERT ----- ##
 OBJ_FILES		= $(SRCS_FILES:.c=.o)
@@ -61,30 +60,25 @@ GREY 			= \033[37m
 UNDERLINE 		= \033[4m
 NORMAL 			= \033[0m
 
-LIBFT			= make -C $(LIBFT_DIR)
-
 ## ----- ALL ACTION DEPENDENCIES AND RECIPE FOR MAIN PROGRAM ----- ##
 all: obj $(NAME)
 
 $(OBJ_DIR)%.o:%.c
-	$(CC) $(CFLAGS) -I $(LIBFT_OBJ) -I $(INCLUDE_DIR) -I $(LIBFT_INC) -o $@ -c $<
+	$(CC) $(CFLAGS) -I $(INCLUDE_DIR) -o $@ -c $<
 
 $(NAME): $(OBJS)
-	$(LIBFT)
-	$(CC) $(OBJS) libft/libft.a -o $(NAME)
+	$(CC) $(OBJS) -o $(NAME)
 
 obj:
 	@mkdir -p $(OBJ_DIR)
 
 ## ----- CLEAN COMMANDS ----- ##
 clean:
-	$(RM) $(OBJS) $(B_OBJS)
-	@make -C $(LIBFT_DIR) clean
+	$(RM) $(OBJS)
 	rm -rf obj
 
 fclean: clean
 	@rm -f $(NAME)
-	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
