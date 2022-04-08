@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/08 09:17:28 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/08 10:56:45 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool	nb_philo_valid(char *arg)
 
 static bool	time_valid(char *arg)
 {
-	if (ft_atol(arg) <= 0)
+	if (ft_atoi(arg) <= 0)
 	{
 		write(2, "Error : Time stamp invalide.\n", 29);
 		return (false);
