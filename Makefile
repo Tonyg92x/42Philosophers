@@ -19,7 +19,7 @@ NAME 			= philo
 
 ## ----- CHOOSE COMPILER AND FLAGS ----- ##
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -pthread -g
+CFLAGS			= -Wall -Wextra -Werror -lpthread -g
 
 ## ----- PATH TO FOLDERS ----- ##
 SRCS_DIR		= srcs/
@@ -67,7 +67,7 @@ $(OBJ_DIR)%.o:%.c
 	$(CC) $(CFLAGS) -I $(INCLUDE_DIR) -o $@ -c $<
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
+	$(CC) $(OBJ_DIR)* $(CFLAGS) -o $(NAME)
 
 obj:
 	@mkdir -p $(OBJ_DIR)

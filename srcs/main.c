@@ -16,11 +16,9 @@ void*	ft_eat(void *arg)
 {
 	t_philo	*philo;
 	int		*status;
-	int		j;
 
 	status = malloc(sizeof(int));
 	*status = 1;
-	j = 0;
 	philo = arg;
 	while((*status) == 1)
 	{
@@ -40,9 +38,9 @@ void	ft_run_philo(t_toutexd toute)
 	i = 0;
 	j = 2;
 	temp = toute.philo1;
-	printf("Philo %d is eating\n", temp->philo_nb);
 	while (i < toute.nb_philo)
 	{
+		printf("Philo %d time to eat = %d\n", temp->philo_nb, temp->time_to_eat);
 		if (j % 2 == 0)
 			usleep(temp->time_to_eat / 2);
 		if (pthread_create(&thread[i], NULL, &ft_eat, temp) != 0)

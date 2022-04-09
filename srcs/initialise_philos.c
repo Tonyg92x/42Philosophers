@@ -21,7 +21,7 @@ void	init_toute(t_toutexd *toute, int argc, char **argv)
 		return ;
 	}
 	toute->philo1 = initialise_philo(argv);
-	init_fork(*toute);
+	init_fork(toute);
 	if (argc == 6)
 		toute->eat_goal = ft_atoi(argv[5]);
 	else
@@ -42,7 +42,6 @@ static void	populate_this_shit(t_philo *temp, char **argv, int i)
 	temp->time_to_die = ft_atoi(argv[2]);
 	temp->time_to_eat = ft_atoi(argv[3]);
 	temp->time_to_sleep = ft_atoi(argv[4]);
-	temp->s_time = gettimeofday()
 }
 
 t_philo	*initialise_philo(char **argv)
@@ -55,7 +54,7 @@ t_philo	*initialise_philo(char **argv)
 	start = malloc(sizeof(t_philo));
 	if (!start)
 		return (NULL);
-	start->philo_nb = 1;
+	populate_this_shit(start, argv, 0);
 	temp = start;
 	while (i < ft_atoi(argv[1]))
 	{
@@ -72,20 +71,30 @@ t_philo	*initialise_philo(char **argv)
 	return (start);
 }
 
-void	init_fork(t_toutexd toute)
+void	init_fork(t_toutexd *toute)
 {
-	t_philo	*temp;
-	t_philo	*start;
+	t_philo	*philo;
+	t_fork	*fork;
+	int		i;
 
-	temp = toute.philo1;
-	start = temp;
-	while (temp != start && temp->left_fork != NULL)
+	i = 0;
+	philo = toute->philo1;
+	while (i < toute->nb_philo - 1)
 	{
-		if (temp->prev->right_fork != NULL)
-			temp->left_fork = temp->prev->right_fork;
-		temp->right_fork = malloc(sizeof(t_fork));
-		pthread_mutex_init(&temp->right_fork->mutex, NULL);
-		temp = temp->next;
+		if (philo->prev->right_fork != NULL)
+			philo->left_fork = philo->prev->right_fork;
+		fork = malloc(sizeof(t_fork));
+		philo->right_fork = fork;
+		pthread_mutex_init(&philo->right_fork->mutex, NULL);
+		fork = NULL;
+		philo = philo->next;
+		i++;
 	}
-	temp->left_fork = temp->prev->right_fork;
+	if (philo->prev)
+	{
+		philo->left_fork = philo->prev->right_fork;
+		fork = malloc(sizeof(t_fork));
+		philo->right_fork = fork;
+		philo->next->left_fork = fork;
+	}
 }

@@ -41,7 +41,7 @@ typedef struct philo
 	int				ate_time;
 	int				philo_nb;
 	char			status;
-	struct timeval	s_time;
+
 }				t_philo;
 
 typedef struct toutexd
@@ -57,7 +57,7 @@ bool		args_valid(int argc, char **argv);
 void		init_toute(t_toutexd *toute, int argc, char **argv);
 int			get_timestamp(struct timeval s_time);
 int			eat_mofo(t_philo *philo);
-void		init_fork(t_toutexd toute);
+void		init_fork(t_toutexd *toute);
 
 //	Utils
 int			ft_atoi(const char *str);
