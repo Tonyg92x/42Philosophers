@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/08 15:01:48 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/09 12:26:43 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,44 @@ int	get_timestamp(struct timeval s_time)
 	return (a_time.tv_usec - s_time.tv_usec);
 }
 
-bool	eat_pair(t_toutexd *toute)
+int	eat_mofo(t_philo *philo)
 {
-	if (toute->eat_goal)
-		return (false);
-	return (true);
+	printf("Philo %d is eating\n", philo->philo_nb);
+	usleep(100000);
+	return (1);
 }
 
-bool	eat_impair(t_toutexd *toute)
+void	free_mem(t_philo *start, int nb_philo)
 {
-	if (toute->eat_goal)
-		return (false);
-	return (true);
+	t_philo	*temp;
+	int		i;
+
+	i = 0;
+	while (i < nb_philo)
+	{
+		temp = start;
+		if (temp->left_fork != NULL)
+		{
+			pthread_mutex_destroy(&temp->left_fork->mutex);
+			free(temp->left_fork);
+		}
+		if (temp->right_fork != NULL)
+		{
+			pthread_mutex_destroy(&temp->right_fork->mutex);
+			free(temp->right_fork);
+		}
+		start = start->next;
+		free(temp);
+		i++;
+	}
 }
+
+// bool	goal_reach(t_toutexd *toute)
+// {
+// 	t_philo	*temp;
+// 	int		i;
+
+// 	i = 0;
+// 	temp = toute->philo1;
+	
+// }

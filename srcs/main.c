@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/08 15:02:36 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/09 12:33:10 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,45 @@
 
 void*	ft_eat(void *arg)
 {
-	t_toutexd *toute;
-	int	*i;
-	int	j;
+	t_philo	*philo;
+	int		*status;
+	int		j;
 
-	j = 1;
-	toute = arg;
-	i = malloc(sizeof(int));
-	if (toute->pair == true)
-		eat_pair(toute);
-	else if (toute->pair == false)
-		eat_impair(toute);
-	return ((void *) i);
+	status = malloc(sizeof(int));
+	*status = 1;
+	j = 0;
+	philo = arg;
+	while((*status) == 1)
+	{
+		(*status) = eat_mofo(philo);
+	}
+	return ((void *) status);
 }
 
 void	ft_run_philo(t_toutexd toute)
 {
 	pthread_t	thread[toute.nb_philo];
+	t_philo		*temp;
 	int			i;
+	int			j;
 	int			*result;
 
 	i = 0;
+	j = 2;
+	temp = toute.philo1;
+	printf("Philo %d is eating\n", temp->philo_nb);
 	while (i < toute.nb_philo)
 	{
-		if (pthread_create(&thread[i], NULL, &ft_eat, &toute) != 0)
+		if (j % 2 == 0)
+			usleep(temp->time_to_eat / 2);
+		if (pthread_create(&thread[i], NULL, &ft_eat, temp) != 0)
 		{
 			write(2, "Error : Couldnt create a thread.\n", 33);
 			return ;
 		}
+		temp = temp->next;
 		i++;
+		j++;
 	}
 	i = 0;
 	while (i < toute.nb_philo)
@@ -73,6 +83,5 @@ int	main(int argc, char **argv)
 	init_toute(&toute, argc, argv);
 	ft_run_philo(toute);
 	free_mem(toute.philo1, ft_atoi(argv[1]));
-	pthread_mutex_destroy(&(toute.mutex));
 	return (0);
 }
