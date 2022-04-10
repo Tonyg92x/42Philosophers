@@ -24,6 +24,22 @@ void*	ft_eat(void *arg)
 	return (NULL);
 }
 
+static void	end_simu(t_toutexd *toute, char status)
+{
+	t_philo	*philo;
+	int		i;
+
+	i = 0;
+	philo = toute->philo1;
+	while (i < toute->nb_philo)
+	{
+		philo->on = false;
+		i++;
+		philo = philo->next;
+	}
+	toute->exit_status = status;
+}
+
 static void	simu_done(t_toutexd *toute)
 {
 	t_philo	*philo;
@@ -31,6 +47,19 @@ static void	simu_done(t_toutexd *toute)
 
 	while (true)
 	{
+		i = 0;
+		philo = toute->philo1;
+		while (i < toute->nb_philo)
+		{
+			if (philo->time_to_die == -1)
+			{
+				toute->dead_philo = philo->philo_nb;
+				end_simu(toute, 'l');
+				return;
+			}
+			i++;
+			philo = philo->next;
+		}
 		philo = toute->philo1;
 		i = 0;
 		while (i < toute->nb_philo)
@@ -39,16 +68,8 @@ static void	simu_done(t_toutexd *toute)
 				break;
 			if (i + 1 == toute->nb_philo)
 			{
-				i = 0;
-				philo = toute->philo1;
-				while (i < toute->nb_philo)
-				{
-					philo->on = false;
-					i++;
-					philo = philo->next;
-				}
-				toute->exit_status = 'w';
-				return;
+				end_simu(toute, 'w');
+				return ;
 			}
 			philo = philo->next;
 			i++;
@@ -89,6 +110,13 @@ void	ft_run_philo(t_toutexd *toute)
 	}
 	if (toute->exit_status == 'w')
 		printf("Simulation won ! Every philosophers ate the eat goal.\n");
+	if (toute->exit_status == 'l')
+	{
+		temp = toute->philo1;
+		while (temp->time_to_die != 1)
+			temp = temp->next;
+		printf("%d %d died\n", temp->death_timer, temp->philo_nb);
+	}
 }
 
 int	main(int argc, char **argv)
@@ -103,6 +131,11 @@ int	main(int argc, char **argv)
 	if (args_valid(argc, argv) == false)
 		return (0);
 	init_toute(&toute, argc, argv);
+	if (toute.nb_philo < 2)
+	{
+		printf("%d %d died\n", toute.philo1->time_to_die, toute.philo1->philo_nb);
+		return (0);
+	}
 	ft_run_philo(&toute);
 	free_mem(toute.philo1, ft_atoi(argv[1]));
 	return (0);

@@ -36,6 +36,8 @@ typedef struct philo
 	struct fork		*left_fork;
 	struct fork		*right_fork;
 	struct timeval	s_time;
+	struct timeval	last_eat;
+	int				death_timer;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -51,6 +53,7 @@ typedef struct toutexd
 	int				nb_philo;
 	int				eat_goal;
 	char			exit_status;
+	int				dead_philo;
 }				t_toutexd;
 
 t_philo		*initialise_philo(char **argv);
