@@ -35,13 +35,13 @@ typedef struct philo
 	struct philo	*prev;
 	struct fork		*left_fork;
 	struct fork		*right_fork;
+	struct timeval	s_time;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				ate_time;
 	int				philo_nb;
-	char			status;
-
+	bool			on;
 }				t_philo;
 
 typedef struct toutexd
@@ -50,13 +50,14 @@ typedef struct toutexd
 	struct timeval	s_time;
 	int				nb_philo;
 	int				eat_goal;
+	char			exit_status;
 }				t_toutexd;
 
 t_philo		*initialise_philo(char **argv);
 bool		args_valid(int argc, char **argv);
 void		init_toute(t_toutexd *toute, int argc, char **argv);
 int			get_timestamp(struct timeval s_time);
-int			eat_mofo(t_philo *philo);
+void		eat_mofo(t_philo *philo);
 void		init_fork(t_toutexd *toute);
 
 //	Utils

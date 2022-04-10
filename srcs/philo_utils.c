@@ -21,6 +21,8 @@ int	get_timestamp(struct timeval s_time)
 		write(2, "Failed to read timestamp.\n", 26);
 		return (-1);
 	}
+	if (a_time.tv_usec < s_time.tv_usec)
+		return (s_time.tv_usec - a_time.tv_usec);
 	return (a_time.tv_usec - s_time.tv_usec);
 }
 
@@ -28,22 +30,19 @@ void	take_a_fork(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork->mutex);
 	pthread_mutex_lock(&philo->right_fork->mutex);
-	printf("Philo %d has taken both fork.\n", philo->philo_nb);
+	printf("%d %d is eating\n",get_timestamp(philo->s_time), philo->philo_nb);
+	philo->ate_time++;
 }
 
-int	eat_mofo(t_philo *philo)
+void	eat_mofo(t_philo *philo)
 {
 	take_a_fork(philo);
-	printf("Philo %d is eating\n", philo->philo_nb);
 	usleep(philo->time_to_eat);
-	pthread_mutex_unlock(&philo->left_fork->mutex);
+	printf("%d %d is sleeping\n", get_timestamp(philo->s_time), philo->philo_nb);
 	pthread_mutex_unlock(&philo->right_fork->mutex);
-	printf("Philo %d has drop fork\n", philo->philo_nb);
-	philo->ate_time++;
-	printf("Philo %d is sleeping\n", philo->philo_nb);
+	pthread_mutex_unlock(&philo->left_fork->mutex);
 	usleep(philo->time_to_sleep);
-	printf("Philo %d is thinking\n", philo->philo_nb);
-	return (1);
+	printf("%d %d is thinking\n",get_timestamp(philo->s_time), philo->philo_nb);
 }
 
 void	free_mem(t_philo *start, int nb_philo)

@@ -15,34 +15,59 @@
 void*	ft_eat(void *arg)
 {
 	t_philo	*philo;
-	int		*status;
 
-	status = malloc(sizeof(int));
-	*status = 1;
 	philo = arg;
-	while((*status) == 1)
-	{
-		(*status) = eat_mofo(philo);
-	}
-	return ((void *) status);
+	if (philo->philo_nb % 2 == 0)
+		usleep(philo->time_to_eat);
+	while(philo->on == true)
+		eat_mofo(philo);
+	return (NULL);
 }
 
-void	ft_run_philo(t_toutexd toute)
+static void	simu_done(t_toutexd *toute)
 {
-	pthread_t	thread[toute.nb_philo];
+	t_philo	*philo;
+	int		i;
+
+	while (true)
+	{
+		philo = toute->philo1;
+		i = 0;
+		while (i < toute->nb_philo)
+		{
+			if (toute->eat_goal < 1 || philo->ate_time < toute->eat_goal)
+				break;
+			if (i + 1 == toute->nb_philo)
+			{
+				i = 0;
+				philo = toute->philo1;
+				while (i < toute->nb_philo)
+				{
+					philo->on = false;
+					i++;
+					philo = philo->next;
+				}
+				toute->exit_status = 'w';
+				return;
+			}
+			philo = philo->next;
+			i++;
+		}
+	}
+}
+
+void	ft_run_philo(t_toutexd *toute)
+{
+	pthread_t	thread[toute->nb_philo];
 	t_philo		*temp;
 	int			i;
-	int			j;
-	int			*result;
 
 	i = 0;
-	j = 2;
-	temp = toute.philo1;
-	while (i < toute.nb_philo)
+	gettimeofday(&toute->s_time, NULL);
+	temp = toute->philo1;
+	while (i < toute->nb_philo)
 	{
-		printf("Philo %d time to eat = %d\n", temp->philo_nb, temp->time_to_eat);
-		if (j % 2 == 0)
-			usleep(temp->time_to_eat / 2);
+		temp->s_time = toute->s_time;
 		if (pthread_create(&thread[i], NULL, &ft_eat, temp) != 0)
 		{
 			write(2, "Error : Couldnt create a thread.\n", 33);
@@ -50,21 +75,20 @@ void	ft_run_philo(t_toutexd toute)
 		}
 		temp = temp->next;
 		i++;
-		j++;
 	}
+	simu_done(toute);
 	i = 0;
-	while (i < toute.nb_philo)
+	while (i < toute->nb_philo)
 	{
-		if (pthread_join(thread[i], (void **) &result) != 0)
+		if (pthread_join(thread[i], NULL) != 0)
 		{
 			write(2, "Error : Couldnt wait for a thread.\n", 35);
 			return ;
 		}
-		if ((*result) == 0)
-			printf("Philo %d has done eating %d time.\n", i + 1, toute.eat_goal);
-		free(result);
 		i++;
 	}
+	if (toute->exit_status == 'w')
+		printf("Simulation won ! Every philosophers ate the eat goal.\n");
 }
 
 int	main(int argc, char **argv)
@@ -79,7 +103,7 @@ int	main(int argc, char **argv)
 	if (args_valid(argc, argv) == false)
 		return (0);
 	init_toute(&toute, argc, argv);
-	ft_run_philo(toute);
+	ft_run_philo(&toute);
 	free_mem(toute.philo1, ft_atoi(argv[1]));
 	return (0);
 }

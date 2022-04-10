@@ -38,10 +38,10 @@ static void	populate_this_shit(t_philo *temp, char **argv, int i)
 {
 	temp->philo_nb = i + 1;
 	temp->ate_time = 0;
-	temp->status = 'P';
 	temp->time_to_die = ft_atoi(argv[2]);
 	temp->time_to_eat = ft_atoi(argv[3]);
 	temp->time_to_sleep = ft_atoi(argv[4]);
+	temp->on = true;
 }
 
 t_philo	*initialise_philo(char **argv)
