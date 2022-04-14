@@ -6,7 +6,7 @@
 #    By: aguay <aguay@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 08:51:26 by mmondell          #+#    #+#              #
-#    Updated: 2022/04/08 14:59:25 by aguay            ###   ########.fr        #
+#    Updated: 2022/04/14 08:42:50 by aguay            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME 			= philo
 
 ## ----- CHOOSE COMPILER AND FLAGS ----- ##
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -lpthread
+CFLAGS			= -Wall -Wextra -Werror -pthread -g
 
 ## ----- PATH TO FOLDERS ----- ##
 SRCS_DIR		= srcs/
@@ -34,8 +34,10 @@ SRCS_FILES		=						\
 			initialise_philos.c			\
 			args_validation.c			\
 			ft_atoi.c					\
+			ft_atol.c					\
 			ft_isdigit.c				\
 			philo_utils.c				\
+			philo_utils2.c				\
 
 ## ----- .C TO .O CONVERT ----- ##
 OBJ_FILES		= $(SRCS_FILES:.c=.o)

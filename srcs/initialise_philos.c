@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/09 12:36:06 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/14 12:36:04 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,24 @@
 
 void	init_toute(t_toutexd *toute, int argc, char **argv)
 {
+	int		i;
+	t_philo	*temp;
+
+	i = 0;
 	toute->nb_philo = ft_atoi(argv[1]);
-	if (gettimeofday(&toute->s_time, NULL) == -1)
-	{
-		write(2, "Error : Unable to setup start time.\n", 36);
-		return ;
-	}
 	toute->philo1 = initialise_philo(argv);
 	init_fork(toute);
 	if (argc == 6)
 		toute->eat_goal = ft_atoi(argv[5]);
 	else
 		toute->eat_goal = -1;
+	temp = toute->philo1;
+	while (i < toute->nb_philo)
+	{
+		temp->s_time = &toute->s_time;
+		temp = temp->next;
+		i++;
+	}
 }
 
 static t_philo	*ft_quit(int i, t_philo *start)
@@ -38,9 +44,10 @@ static void	populate_this_shit(t_philo *temp, char **argv, int i)
 {
 	temp->philo_nb = i + 1;
 	temp->ate_time = 0;
-	temp->time_to_die = ft_atoi(argv[2]);
-	temp->time_to_eat = ft_atoi(argv[3]);
-	temp->time_to_sleep = ft_atoi(argv[4]);
+	temp->time_to_die = ft_atol(argv[2]);
+	temp->time_to_eat = ft_atol(argv[3]);
+	temp->time_to_sleep = ft_atol(argv[4]);
+	temp->death_timer = ft_atol(argv[2]);
 	temp->on = true;
 }
 
