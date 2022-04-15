@@ -29,7 +29,9 @@ bool	is_alive(t_philo *philo, char c)
 	long long int	a_time;
 
 	a_time = get_timestamp((*philo->s_time));
-	if (philo->death_timer <= a_time)
+	if (c == 'e')
+		philo->death_timer = philo->death_timer - (a_time - philo->last_eat);
+	if (philo->death_timer < 0)
 	{
 		philo->time_to_die = -1;
 		philo->death_timer = a_time;
@@ -37,13 +39,7 @@ bool	is_alive(t_philo *philo, char c)
 		pthread_mutex_unlock(&philo->left_fork->mutex);
 		return (false);
 	}
-	if (c == 'e')
-	{
-		if (philo->last_eat == 0)
-			philo->death_timer += philo->death_timer - a_time;
-		else
-			philo->death_timer = (philo->death_timer - philo->last_eat) + philo->time_to_die;
-	}
+	philo->death_timer = philo->death_timer + philo->time_to_sleep;
 	return (true);
 }
 
@@ -51,6 +47,7 @@ void	take_a_fork(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->left_fork->mutex);
 	pthread_mutex_lock(&philo->right_fork->mutex);
+	printf("%lld %d has taken a fork\n", get_timestamp((*philo->s_time)), philo->philo_nb);
 	philo->ate_time++;
 }
 
