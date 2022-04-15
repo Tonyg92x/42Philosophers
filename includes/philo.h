@@ -64,6 +64,8 @@ void			eat_mofo(t_philo *philo);
 void			init_fork(t_toutexd *toute);
 void			wait_time(long long int time_to_wait, t_philo *philo);
 void			end_simu(t_toutexd *toute, char status);
+bool			is_alive_while(t_philo *philo, long long int lim);
+bool			is_thinking(t_philo *philo);
 
 //	Utils
 int				ft_atoi(const char *str);

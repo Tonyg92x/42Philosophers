@@ -51,3 +51,61 @@ void	end_simu(t_toutexd *toute, char status)
 	}
 	toute->exit_status = status;
 }
+
+bool	is_alive_while(t_philo *philo, long long int lim)
+{
+	long long int	will_d;
+	long long int	actual_t;
+	bool			die;
+
+	actual_t = get_timestamp((*philo->s_time));
+	will_d = philo->death_timer - (lim - actual_t);
+	if (will_d < 1)
+	{
+		die = true;
+		will_d = actual_t + philo->death_timer;
+	}
+	else
+		die = false;
+	while (get_timestamp((*philo->s_time)) < lim)
+	{
+		if (die == true)
+		{
+			while (actual_t < will_d)
+				usleep(1000);
+			philo->time_to_die = -1;
+			philo->death_timer = get_timestamp((*philo->s_time));;
+			return (false);
+		}
+		usleep(1000);
+	}
+	philo->death_timer = philo->death_timer - philo->time_to_sleep;
+	return (true);
+}
+
+bool	is_thinking(t_philo *philo)
+{
+	while (pthread_mutex_lock(&philo->right_fork->mutex) != 0)
+	{
+		usleep(1000);
+		philo->death_timer--;
+		if (philo->death_timer < 1)
+		{
+			philo->time_to_die = -1;
+			philo->death_timer = get_timestamp((*philo->s_time));;
+			return (false);
+		}
+	}
+	while (pthread_mutex_lock(&philo->left_fork->mutex) != 0)
+	{
+		usleep(1000);
+		philo->death_timer--;
+		if (philo->death_timer < 1)
+		{
+			philo->time_to_die = -1;
+			philo->death_timer = get_timestamp((*philo->s_time));;
+			return (false);
+		}
+	}
+	return (true);
+}

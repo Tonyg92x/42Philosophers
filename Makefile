@@ -19,7 +19,7 @@ NAME 			= philo
 
 ## ----- CHOOSE COMPILER AND FLAGS ----- ##
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -pthread -g
+CFLAGS			= -Wall -Wextra -Werror -pthread
 
 ## ----- PATH TO FOLDERS ----- ##
 SRCS_DIR		= srcs/

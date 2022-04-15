@@ -109,11 +109,10 @@ void	ft_run_philo(t_toutexd *toute)
 		while (i < toute->nb_philo)
 		{
 			if (temp->time_to_die == -1)
-				break;
+				printf("%lld %d died\n", temp->death_timer, temp->philo_nb);
 			i++;
 			temp = temp->next;
 		}
-		printf("%lld %d died\n", temp->death_timer, temp->philo_nb);
 	}
 }
 
