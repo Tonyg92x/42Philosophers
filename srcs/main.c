@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/14 12:22:51 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/18 11:22:00 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,67 +28,24 @@ void	*ft_eat(void *arg)
 
 static void	simu_done(t_toutexd *toute)
 {
-	t_philo	*philo;
-	int		i;
-
 	while (true)
 	{
-		philo = toute->philo1;
-		i = 0;
-		while (i < toute->nb_philo)
-		{
-			if (philo->time_to_die == -1)
-			{
-				end_simu(toute, 'l');
-				return;
-			}
-			philo = philo->next;
-			i++;
-		}
-		philo = toute->philo1;
-		i = 0;
-		while (i < toute->nb_philo)
-		{
-			if (toute->eat_goal < 1 || philo->ate_time < toute->eat_goal)
-				break ;
-			if (i + 1 == toute->nb_philo)
-			{
-				end_simu(toute, 'w');
-				return ;
-			}
-			philo = philo->next;
-			i++;
-		}
+		if (philo_died(toute) == true)
+			return ;
+		if (philos_won(toute) == true)
+			return ;
 	}
 }
 
 void	ft_run_philo(t_toutexd *toute)
 {
-	pthread_t	thread[toute->nb_philo];
-	t_philo		*temp;
-	t_philo		*p_array[toute->nb_philo];
+	pthread_t	thread[2000];
+	t_philo		**p_array;
 	int			i;
 
-	i = 0;
-	temp = toute->philo1;
-	while (i < toute->nb_philo)
-	{
-		p_array[i] = temp;
-		temp = temp->next;
-		i++;
-	}
-	i = 0;
-	gettimeofday(&toute->s_time, NULL);
-	while (i < toute->nb_philo)
-	{
-		if (pthread_create(&thread[i], NULL, &ft_eat, p_array[i]) != 0)
-		{
-			write(2, "Error : Couldnt create a thread.\n", 33);
-			return ;
-		}
-		usleep(10);
-		i++;
-	}
+	p_array = malloc(sizeof(t_philo *) * toute->nb_philo);
+	init_p_array(toute, p_array);
+	start_thread(thread, p_array, toute);
 	simu_done(toute);
 	i = 0;
 	while (i < toute->nb_philo)
@@ -100,20 +57,7 @@ void	ft_run_philo(t_toutexd *toute)
 		}
 		i++;
 	}
-	if (toute->exit_status == 'w')
-		printf("Simulation won ! Every philosophers ate the eat goal.\n");
-	i = 0;
-	if (toute->exit_status == 'l')
-	{
-		temp = toute->philo1;
-		while (i < toute->nb_philo)
-		{
-			if (temp->time_to_die == -1)
-				printf("%lld %d died\n", temp->death_timer, temp->philo_nb);
-			i++;
-			temp = temp->next;
-		}
-	}
+	free(p_array);
 }
 
 int	main(int argc, char **argv)

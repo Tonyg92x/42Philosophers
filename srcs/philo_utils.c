@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/14 12:50:34 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/18 12:29:14 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,39 +44,38 @@ bool	is_alive(t_philo *philo, char c)
 
 void	take_a_fork(t_philo *philo)
 {
-	if (get_timestamp(*philo->s_time) < philo->time_to_eat + 30)
-	{
-		pthread_mutex_lock(&philo->left_fork->mutex);
-		pthread_mutex_lock(&philo->right_fork->mutex);
-	}
+	pthread_mutex_lock(&philo->left_fork->mutex);
+	pthread_mutex_lock(&philo->right_fork->mutex);
 	if (is_alive(philo, 'e') == false)
 		return ;
-	printf("%lld %d has taken a fork\n", get_timestamp((*philo->s_time)), philo->philo_nb);
+	printf("%lld %d has taken a fork\n",
+		get_timestamp((*philo->s_time)), philo->philo_nb);
 	philo->ate_time++;
 }
 
 void	eat_mofo(t_philo *philo)
 {
 	if (philo->on == false)
-		return;
+		return ;
 	take_a_fork(philo);
+	usleep(1000);
 	if (philo->on == false)
-		return;
-	printf("%lld %d is eating\n",get_timestamp((*philo->s_time)), philo->philo_nb);
+		return ;
+	printf("%lld %d is eating\n",
+		get_timestamp((*philo->s_time)), philo->philo_nb);
 	usleep(philo->time_to_eat * 1000);
-	philo->death_timer =- philo->time_to_eat;
-	philo->death_timer =+ philo->time_to_die;
 	philo->last_eat = get_timestamp((*philo->s_time));
+	philo->death_timer = philo->time_to_die;
 	pthread_mutex_unlock(&philo->right_fork->mutex);
 	pthread_mutex_unlock(&philo->left_fork->mutex);
 	if (philo->on == false)
-		return;
-	printf("%lld %d is sleeping\n", get_timestamp((*philo->s_time)), philo->philo_nb);
-	if (is_alive_while(philo, get_timestamp((*philo->s_time)) + philo->time_to_sleep) == false)
+		return ;
+	printf("%lld %d is sleeping\n",
+		get_timestamp((*philo->s_time)), philo->philo_nb);
+	if (is_alive_while(philo,
+			get_timestamp((*philo->s_time)) + philo->time_to_sleep) == false)
 		return ;
 	if (philo->on == false)
-		return;
-	printf("%lld %d is thinking\n",get_timestamp((*philo->s_time)), philo->philo_nb);
-	if (is_thinking(philo) == false)
 		return ;
+	ft_think(philo);
 }

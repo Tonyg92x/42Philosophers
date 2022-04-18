@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/14 12:36:04 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/18 10:51:06 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ void	init_toute(t_toutexd *toute, int argc, char **argv)
 		temp = temp->next;
 		i++;
 	}
-}
-
-static t_philo	*ft_quit(int i, t_philo *start)
-{
-	free_mem(start, i);
-	return (NULL);
 }
 
 static void	populate_this_shit(t_philo *temp, char **argv, int i)
@@ -104,4 +98,21 @@ void	init_fork(t_toutexd *toute)
 		philo->right_fork = fork;
 		philo->next->left_fork = fork;
 	}
+}
+
+void	init_p_array(t_toutexd *toute, t_philo **p_array)
+{
+	t_philo		*philo;
+	int			i;
+
+	i = 0;
+	philo = toute->philo1;
+	while (i < toute->nb_philo)
+	{
+		p_array[i] = philo;
+		philo = philo->next;
+		i++;
+	}
+	gettimeofday(&toute->s_time, NULL);
+	return ;
 }
