@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 07:42:17 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/18 13:39:04 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/21 07:31:39 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct philo
 	long long int	time_to_sleep;
 	int				ate_time;
 	int				philo_nb;
+	int				*total_nb;
 	bool			on;
 }				t_philo;
 
@@ -63,7 +64,7 @@ void			eat_mofo(t_philo *philo);
 void			init_fork(t_toutexd *toute);
 void			wait_time(long long int time_to_wait, t_philo *philo);
 void			end_simu(t_toutexd *toute, char status);
-bool			is_alive_while(t_philo *philo, long long int lim);
+bool			is_alive_while(t_philo *philo, long long int time);
 bool			is_thinking(t_philo *philo);
 bool			philo_died(t_toutexd *toute);
 bool			philos_won(t_toutexd *toute);

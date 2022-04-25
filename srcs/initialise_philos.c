@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/18 10:51:06 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/19 10:49:25 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	init_toute(t_toutexd *toute, int argc, char **argv)
 	while (i < toute->nb_philo)
 	{
 		temp->s_time = &toute->s_time;
+		temp->total_nb = &toute->nb_philo;
 		temp = temp->next;
 		i++;
 	}

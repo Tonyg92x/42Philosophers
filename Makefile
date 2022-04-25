@@ -6,7 +6,7 @@
 #    By: aguay <aguay@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 08:51:26 by mmondell          #+#    #+#              #
-#    Updated: 2022/04/18 13:36:34 by aguay            ###   ########.fr        #
+#    Updated: 2022/04/21 13:24:21 by aguay            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,7 @@ SRCS_FILES		=						\
 			ft_isdigit.c				\
 			philo_utils.c				\
 			philo_utils2.c				\
-			philo_utils3.c				\
-			philo_utils4.c				\
+			philo_run.c					\
 
 ## ----- .C TO .O CONVERT ----- ##
 OBJ_FILES		= $(SRCS_FILES:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/18 12:17:16 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/21 07:36:33 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,26 @@ void	end_simu(t_toutexd *toute, char status)
 	exit_message(toute);
 }
 
-bool	is_alive_while(t_philo *philo, long long int lim)
+bool	is_alive_while(t_philo *philo, long long int time)
 {
 	long long int	will_d;
 	long long int	actual_t;
-	bool			die;
 
 	actual_t = get_timestamp((*philo->s_time));
-	will_d = philo->death_timer - (lim - actual_t);
-	die = false;
+	will_d = philo->death_timer - time;
 	if (will_d < 1)
 	{
-		will_d = actual_t + (philo->time_to_die - philo->time_to_eat);
+		will_d = actual_t + philo->death_timer;
 		while (actual_t < will_d)
 		{
 			usleep(1000);
 			actual_t = get_timestamp((*philo->s_time));
 		}
-		philo->time_to_die = -1;
 		philo->death_timer = will_d;
+		philo->time_to_die = -1;
 		return (false);
 	}
-	while (get_timestamp((*philo->s_time)) < lim)
-		usleep(1000);
-	philo->death_timer = philo->death_timer - philo->time_to_sleep;
+	usleep(time * 1000);
+	philo->death_timer -= time;
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/18 12:08:56 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/21 07:42:13 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	exit_message(t_toutexd *toute)
 	int			y;
 	t_philo		*philo;
 
+	usleep(1000);
 	if (toute->exit_status == 'l')
 	{
 		i = 0;
@@ -93,6 +94,6 @@ void	exit_message(t_toutexd *toute)
 		while (y != philo->philo_nb)
 			philo = philo->next;
 		printf("%lld %d died\n",
-			get_timestamp((*philo->s_time)), philo->philo_nb);
+			philo->death_timer, philo->philo_nb);
 	}
 }
