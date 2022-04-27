@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/18 11:22:00 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/27 11:26:56 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,18 @@ void	*ft_eat(void *arg)
 	if (philo->philo_nb % 2 == 0)
 		usleep(philo->time_to_eat);
 	while (philo->on == true)
+	{
+		if (philo->ate_time > 0 && (*philo->total_nb) % 2 != 0)
+		{
+			if (philo->time_to_die < (philo->time_to_eat
+					+ philo->time_to_sleep) * 2)
+			{
+				ft_die(philo);
+				return (NULL);
+			}
+		}
 		eat_mofo(philo);
+	}
 	pthread_mutex_destroy(&philo->right_fork->mutex);
 	pthread_mutex_destroy(&philo->left_fork->mutex);
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 07:42:17 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/21 07:31:39 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/25 11:29:00 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void			start_thread(pthread_t *thread, t_philo **p_array,
 void			exit_message(t_toutexd *toute);
 int				ft_smallest_dt(t_toutexd *toute);
 void			ft_think(t_philo *philo);
+void			ft_die(t_philo *philo);
 
 //	Utils
 int				ft_atoi(const char *str);

@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/21 07:36:33 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/27 11:03:29 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,13 @@ bool	is_alive_while(t_philo *philo, long long int time)
 	usleep(time * 1000);
 	philo->death_timer -= time;
 	return (true);
+}
+
+void	ft_die(t_philo *philo)
+{
+	philo->time_to_die = -1;
+	philo->death_timer = get_timestamp((*philo->s_time));
+	pthread_mutex_unlock(&philo->left_fork->mutex);
+	pthread_mutex_unlock(&philo->right_fork->mutex);
+	return ;
 }

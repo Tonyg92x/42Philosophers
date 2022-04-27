@@ -6,7 +6,7 @@
 /*   By: aguay <aguay@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:51:26 by aguay             #+#    #+#             */
-/*   Updated: 2022/04/21 07:41:47 by aguay            ###   ########.fr       */
+/*   Updated: 2022/04/27 11:24:23 by aguay            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,10 @@ void	take_a_fork(t_philo *philo)
 		return ;
 	pthread_mutex_lock(&philo->left_fork->mutex);
 	pthread_mutex_lock(&philo->right_fork->mutex);
-	if (get_timestamp((*philo->s_time)) > philo->last_eat + philo->time_to_die)
+	if (get_timestamp((*philo->s_time)) > philo->last_eat
+		+ philo->time_to_die)
 	{
-		philo->time_to_die = -1;
-		philo->death_timer = get_timestamp((*philo->s_time));
-		pthread_mutex_unlock(&philo->left_fork->mutex);
-		pthread_mutex_unlock(&philo->right_fork->mutex);
+		ft_die(philo);
 		return ;
 	}
 	printf("%lld %d has taken a fork\n",
